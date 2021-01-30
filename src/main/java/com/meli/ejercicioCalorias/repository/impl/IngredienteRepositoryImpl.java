@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Repository
@@ -18,12 +19,12 @@ public class IngredienteRepositoryImpl implements IngredienteRepository {
 
     @Override
     public Ingrediente findCaloriesByIngredient(String ingredientName) {
-        List<Ingrediente> ingredientes = null;
+        List<Ingrediente> ingredientes;
         ingredientes = loadDataBase();
         Ingrediente result = null;
         if( ingredientes != null){
             Optional<Ingrediente> item = ingredientes.stream()
-                .filter(priceDTO -> priceDTO.getName().equals(ingredientName))
+                .filter(ingredientDTO -> ingredientDTO.getName().equalsIgnoreCase(ingredientName))
                 .findFirst();
             if(item.isPresent())
                 result =item.get();

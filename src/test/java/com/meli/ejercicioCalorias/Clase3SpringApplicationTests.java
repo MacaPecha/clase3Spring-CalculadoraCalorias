@@ -83,4 +83,43 @@ class Clase3SpringApplicationTests {
 								"}"));
 	}
 
+	@Test
+	void shouldCalculateCaloriesSuccessWithoutCaseSensitive() throws Exception {
+		this.mockMvc.perform(post("/calorias")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\n" +
+						"    \"name\":\"comida\",\n" +
+						"    \"ingredienteRequestDTOList\": [\n" +
+						"        {\n" +
+						"        \"name\":\"acELgas\",\n" +
+						"        \"weight\":34.55\n" +
+						"        },\n" +
+						"        {\n" +
+						"        \"name\":\"alcacHOfas\",\n" +
+						"        \"weight\":66.42\n" +
+						"        }\n" +
+						"    ]\n" +
+						"}"))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content()
+						.json("{\n" +
+								"    \"fullCalories\": 5391.03,\n" +
+								"    \"ingredienteDAOList\": [\n" +
+								"        {\n" +
+								"            \"name\": \"Acelgas\",\n" +
+								"            \"calories\": 1140.1499999999999\n" +
+								"        },\n" +
+								"        {\n" +
+								"            \"name\": \"Alcachofas\",\n" +
+								"            \"calories\": 4250.88\n" +
+								"        }\n" +
+								"    ],\n" +
+								"    \"ingredienteDAOMayorCalorias\": {\n" +
+								"        \"name\": \"Alcachofas\",\n" +
+								"        \"calories\": 4250.88\n" +
+								"    }\n" +
+								"}"));
+	}
+
 }
