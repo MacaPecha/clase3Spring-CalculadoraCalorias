@@ -25,9 +25,9 @@ public class CalculateCaloriesServiceImpl implements CalculateCaloriesService {
 
         List<IngredienteResponseDTO> ingredientsByPlate = getIngredientsByPlate(ingredienteRequestDTOList); //listado de ingredientes (nombre y caloria) del plato
         double fullCalories = getFullCalories(ingredientsByPlate); //categorias por plato
-        IngredienteResponseDTO ingredienteDAOMasCalorias = calculateIngredienteMasCaloria(ingredientsByPlate); //ingrediente con mas calorias
+        IngredienteResponseDTO ingredienteResponseDTO = calculateIngredienteMasCaloria(ingredientsByPlate); //ingrediente con mas calorias
 
-        CaloriesResponseDTO caloriesResponseDTO = new CaloriesResponseDTO(fullCalories, ingredientsByPlate, ingredienteDAOMasCalorias);
+        CaloriesResponseDTO caloriesResponseDTO = new CaloriesResponseDTO(fullCalories, ingredientsByPlate, ingredienteResponseDTO);
         return caloriesResponseDTO;
     }
 
@@ -39,7 +39,7 @@ public class CalculateCaloriesServiceImpl implements CalculateCaloriesService {
             if (ingredienteCaloria == null) {
                 throw new IllegalArgumentException("Ingrediente no encontrado");
             }
-            ingredientePesoCaloria.setCalories(ingredienteCaloria.getCalories() * ingredientePeso.getWeight()); //seteo calorias del ingrediente de la response
+            ingredientePesoCaloria.setFullCalories(ingredienteCaloria.getCalories() * ingredientePeso.getWeight()); //seteo calorias del ingrediente de la response
             ingredientePesoCaloria.setName(ingredienteCaloria.getName()); //seteo nombre del ingrediente de la response
 
             ingredienteResponseDTOList.add(ingredientePesoCaloria); // agrego el ingrediente a la lista de la response
@@ -51,19 +51,19 @@ public class CalculateCaloriesServiceImpl implements CalculateCaloriesService {
     private double getFullCalories(List<IngredienteResponseDTO> ingredienteResponseDTOList) {
         double result = 0.0d;
         for (IngredienteResponseDTO ingre : ingredienteResponseDTOList) {
-            result += ingre.getCalories();
+            result += ingre.getFullCalories();
         }
         return result;
     }
 
     private IngredienteResponseDTO calculateIngredienteMasCaloria(List<IngredienteResponseDTO> ingredientsByPlate) {
-        IngredienteResponseDTO ingredienteDAOMayor = ingredientsByPlate.get(0);
+        IngredienteResponseDTO ingredienteResponseDTOMayor = ingredientsByPlate.get(0);
         for (IngredienteResponseDTO ingre : ingredientsByPlate) {
-            if (ingre.getCalories() > ingredienteDAOMayor.getCalories()) {
-                ingredienteDAOMayor = ingre;
+            if (ingre.getFullCalories() > ingredienteResponseDTOMayor.getFullCalories()) {
+                ingredienteResponseDTOMayor = ingre;
             }
         }
-        return ingredienteDAOMayor;
+        return ingredienteResponseDTOMayor;
     }
 
 }

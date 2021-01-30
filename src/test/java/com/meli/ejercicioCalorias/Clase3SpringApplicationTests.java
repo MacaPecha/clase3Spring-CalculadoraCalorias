@@ -33,6 +33,18 @@ class Clase3SpringApplicationTests {
 						"        {\n" +
 						"        \"name\":\"Alcachofas\",\n" +
 						"        \"weight\":66.42\n" +
+						"        },\n" +
+						"        {\n" +
+						"        \"name\":\"Remolacha\",\n" +
+						"        \"weight\":66.42\n" +
+						"        },\n" +
+						"        {\n" +
+						"        \"name\":\"Nabos\",\n" +
+						"        \"weight\":66.42\n" +
+						"        },\n" +
+						"        {\n" +
+						"        \"name\":\"Papas cocidas\",\n" +
+						"        \"weight\":66.42\n" +
 						"        }\n" +
 						"    ]\n" +
 						"}"))
@@ -40,20 +52,32 @@ class Clase3SpringApplicationTests {
 				.andExpect(status().isOk())
 				.andExpect(content()
 						.json("{\n" +
-								"    \"fullCalories\": 5391.03,\n" +
-								"    \"ingredienteDAOList\": [\n" +
+								"    \"fullCalories\": 15686.13,\n" +
+								"    \"ingredienteResponseDTOList\": [\n" +
 								"        {\n" +
 								"            \"name\": \"Acelgas\",\n" +
-								"            \"calories\": 1140.1499999999999\n" +
+								"            \"fullCalories\": 1140.15\n" +
 								"        },\n" +
 								"        {\n" +
 								"            \"name\": \"Alcachofas\",\n" +
-								"            \"calories\": 4250.88\n" +
+								"            \"fullCalories\": 4250.88\n" +
+								"        },\n" +
+								"        {\n" +
+								"            \"name\": \"Remolacha\",\n" +
+								"            \"fullCalories\": 2656.8\n" +
+								"        },\n" +
+								"        {\n" +
+								"            \"name\": \"Nabos\",\n" +
+								"            \"fullCalories\": 1926.18\n" +
+								"        },\n" +
+								"        {\n" +
+								"            \"name\": \"Papas cocidas\",\n" +
+								"            \"fullCalories\": 5712.12\n" +
 								"        }\n" +
 								"    ],\n" +
-								"    \"ingredienteDAOMayorCalorias\": {\n" +
-								"        \"name\": \"Alcachofas\",\n" +
-								"        \"calories\": 4250.88\n" +
+								"    \"ingredienteResponseDTOMayorCalorias\": {\n" +
+								"        \"name\": \"Papas cocidas\",\n" +
+								"        \"fullCalories\": 5712.12\n" +
 								"    }\n" +
 								"}"));
 	}
@@ -66,11 +90,23 @@ class Clase3SpringApplicationTests {
 						"    \"name\":\"comida\",\n" +
 						"    \"ingredienteRequestDTOList\": [\n" +
 						"        {\n" +
-						"        \"name\":\"miau\",\n" +
+						"        \"name\":\"asdasd\",\n" +
 						"        \"weight\":34.55\n" +
 						"        },\n" +
 						"        {\n" +
 						"        \"name\":\"Alcachofas\",\n" +
+						"        \"weight\":66.42\n" +
+						"        },\n" +
+						"        {\n" +
+						"        \"name\":\"Remolacha\",\n" +
+						"        \"weight\":66.42\n" +
+						"        },\n" +
+						"        {\n" +
+						"        \"name\":\"Nabos\",\n" +
+						"        \"weight\":66.42\n" +
+						"        },\n" +
+						"        {\n" +
+						"        \"name\":\"Papas cocidas\",\n" +
 						"        \"weight\":66.42\n" +
 						"        }\n" +
 						"    ]\n" +
@@ -84,7 +120,7 @@ class Clase3SpringApplicationTests {
 	}
 
 	@Test
-	void shouldCalculateCaloriesSuccessWithoutCaseSensitive() throws Exception {
+	void shouldCalculateCaloriesSuccessWithCaseIgnore() throws Exception {
 		this.mockMvc.perform(post("/calorias")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\n" +
@@ -97,6 +133,18 @@ class Clase3SpringApplicationTests {
 						"        {\n" +
 						"        \"name\":\"alcacHOfas\",\n" +
 						"        \"weight\":66.42\n" +
+						"        },\n" +
+						"        {\n" +
+						"        \"name\":\"remolacha\",\n" +
+						"        \"weight\":66.42\n" +
+						"        },\n" +
+						"        {\n" +
+						"        \"name\":\"nabos\",\n" +
+						"        \"weight\":66.42\n" +
+						"        },\n" +
+						"        {\n" +
+						"        \"name\":\"papas cocidas\",\n" +
+						"        \"weight\":66.42\n" +
 						"        }\n" +
 						"    ]\n" +
 						"}"))
@@ -104,20 +152,32 @@ class Clase3SpringApplicationTests {
 				.andExpect(status().isOk())
 				.andExpect(content()
 						.json("{\n" +
-								"    \"fullCalories\": 5391.03,\n" +
-								"    \"ingredienteDAOList\": [\n" +
+								"    \"fullCalories\": 15686.13,\n" +
+								"    \"ingredienteResponseDTOList\": [\n" +
 								"        {\n" +
 								"            \"name\": \"Acelgas\",\n" +
-								"            \"calories\": 1140.1499999999999\n" +
+								"            \"fullCalories\": 1140.15\n" +
 								"        },\n" +
 								"        {\n" +
 								"            \"name\": \"Alcachofas\",\n" +
-								"            \"calories\": 4250.88\n" +
+								"            \"fullCalories\": 4250.88\n" +
+								"        },\n" +
+								"        {\n" +
+								"            \"name\": \"Remolacha\",\n" +
+								"            \"fullCalories\": 2656.8\n" +
+								"        },\n" +
+								"        {\n" +
+								"            \"name\": \"Nabos\",\n" +
+								"            \"fullCalories\": 1926.18\n" +
+								"        },\n" +
+								"        {\n" +
+								"            \"name\": \"Papas cocidas\",\n" +
+								"            \"fullCalories\": 5712.12\n" +
 								"        }\n" +
 								"    ],\n" +
-								"    \"ingredienteDAOMayorCalorias\": {\n" +
-								"        \"name\": \"Alcachofas\",\n" +
-								"        \"calories\": 4250.88\n" +
+								"    \"ingredienteResponseDTOMayorCalorias\": {\n" +
+								"        \"name\": \"Papas cocidas\",\n" +
+								"        \"fullCalories\": 5712.12\n" +
 								"    }\n" +
 								"}"));
 	}
