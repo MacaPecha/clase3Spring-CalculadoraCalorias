@@ -10,8 +10,8 @@ import com.meli.ejercicioCalorias.service.CalculateCaloriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.table.TableRowSorter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -21,21 +21,21 @@ public class CalculateCaloriesServiceImpl implements CalculateCaloriesService {
 
     @Override
     public CaloriesResponseDTO calculateCalories(PlatoRequestDTO platoRequestDTO) { // recibo plato con ingredientes (nombre y peso)
-        List<IngredienteRequestDTO> ingredienteRequestDTOList = platoRequestDTO.getIngredienteRequestDTOList(); // listado de nombres de ingredientes del plato
+        List<IngredienteRequestDTO> ingredienteRequestDTOList = platoRequestDTO.getIngredienteRequestDTOList(); // listado de ingredientes del plato
 
-        List<IngredienteResponseDTO> ingredientsByPlate = getIngredientsByPlate(ingredienteRequestDTOList); //listado de ingredientes (nombre y caloria) del plato
-        double fullCalories = getFullCalories(ingredientsByPlate); //categorias por plato
-        IngredienteResponseDTO ingredienteResponseDTO = calculateIngredienteMasCaloria(ingredientsByPlate); //ingrediente con mas calorias
+        List<IngredienteResponseDTO> ingredientsByPlate = getIngredientsByPlate(ingredienteRequestDTOList); //listado de ingredientes (nombre y (peso * caloria)) del plato
+        double fullCalories = getFullCalories(ingredientsByPlate); //calorias por plato
+        IngredienteResponseDTO ingredienteResponseDTO = getHigherCaloriesIngredient(ingredientsByPlate); //ingrediente con mas calorias
 
         CaloriesResponseDTO caloriesResponseDTO = new CaloriesResponseDTO(fullCalories, ingredientsByPlate, ingredienteResponseDTO);
         return caloriesResponseDTO;
     }
 
-    private List<IngredienteResponseDTO> getIngredientsByPlate(List<IngredienteRequestDTO> ingredienteRequestDTO) {
+    private List<IngredienteResponseDTO> getIngredientsByPlate(List<IngredienteRequestDTO> ingredienteRequestDTOList) {
         List<IngredienteResponseDTO> ingredienteResponseDTOList = new ArrayList<>(); //lista de respuesta
-        for (IngredienteRequestDTO ingredientePeso : ingredienteRequestDTO) { // recorro la request
+        for (IngredienteRequestDTO ingredientePeso : ingredienteRequestDTOList) { // recorro la request
             IngredienteResponseDTO ingredientePesoCaloria = new IngredienteResponseDTO(); //inicializo el ingrediente para la response
-            Ingrediente ingredienteCaloria = ingredienteRepository.findCaloriesByIngredient(ingredientePeso.getName()); // obtengo el ingrediente del repo
+            Ingrediente ingredienteCaloria = ingredienteRepository.findIngredientByName(ingredientePeso.getName()); // obtengo el ingrediente del repo
             if (ingredienteCaloria == null) {
                 throw new IllegalArgumentException("Ingrediente no encontrado");
             }
@@ -56,14 +56,15 @@ public class CalculateCaloriesServiceImpl implements CalculateCaloriesService {
         return result;
     }
 
-    private IngredienteResponseDTO calculateIngredienteMasCaloria(List<IngredienteResponseDTO> ingredientsByPlate) {
-        IngredienteResponseDTO ingredienteResponseDTOMayor = ingredientsByPlate.get(0);
+    private IngredienteResponseDTO getHigherCaloriesIngredient(List<IngredienteResponseDTO> ingredientsByPlate) {
+        IngredienteResponseDTO ingredienteResponseDTOMayor = ingredientsByPlate.get(0); // inicializo al mayor como el primer elemento de la lista
+        // TODO averiguar como hacerlo con Comparator
         for (IngredienteResponseDTO ingre : ingredientsByPlate) {
-            if (ingre.getFullCalories() > ingredienteResponseDTOMayor.getFullCalories()) {
-                ingredienteResponseDTOMayor = ingre;
+            if (ingre.getFullCalories() > ingredienteResponseDTOMayor.getFullCalories()) { // comparo calorias totales de ambos ingredientes
+                ingredienteResponseDTOMayor = ingre; // entonces el mayor elemento es el que estoy iterando
             }
         }
-        return ingredienteResponseDTOMayor;
+        return ingredienteResponseDTOMayor; // devuelvo el ingrediente de mayor calorias
     }
 
 }

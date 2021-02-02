@@ -18,13 +18,13 @@ public class CaloriasController {
 
     @PostMapping(path="/calorias")
     @ResponseBody
-    public ResponseEntity<CaloriesResponseDTO> calcularEdadesPost(@RequestBody PlatoRequestDTO platoRequestDTO){
+    public ResponseEntity<CaloriesResponseDTO> calcularCalorias(@RequestBody PlatoRequestDTO platoRequestDTO){
         try {
             CaloriesResponseDTO  response = calculateCaloriesService.calculateCalories(platoRequestDTO);
-            return new ResponseEntity<CaloriesResponseDTO>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             CaloriesResponseDTO response = new CaloriesResponseDTO("Ingrediente no encontrado");
-            return new ResponseEntity<CaloriesResponseDTO>(response, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 }

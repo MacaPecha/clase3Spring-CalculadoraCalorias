@@ -18,7 +18,7 @@ import java.util.Optional;
 public class IngredienteRepositoryImpl implements IngredienteRepository {
 
     @Override
-    public Ingrediente findCaloriesByIngredient(String ingredientName) {
+    public Ingrediente findIngredientByName(String ingredientName) {
         List<Ingrediente> ingredientes;
         ingredientes = loadDataBase();
         Ingrediente result = null;
