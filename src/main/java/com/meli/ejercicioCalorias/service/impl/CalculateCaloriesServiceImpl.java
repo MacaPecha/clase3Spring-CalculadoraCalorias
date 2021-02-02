@@ -58,9 +58,11 @@ public class CalculateCaloriesServiceImpl implements CalculateCaloriesService {
 
     private IngredienteResponseDTO getHigherCaloriesIngredient(List<IngredienteResponseDTO> ingredientsByPlate) {
         IngredienteResponseDTO ingredienteResponseDTOMayor = ingredientsByPlate.get(0); // inicializo al mayor como el primer elemento de la lista
-        // TODO averiguar como hacerlo con Comparator
+//         TODO averiguar como hacerlo con Comparator... DONE
+        Comparator<Double> comparator = (a, b) -> (int) (a-b);
         for (IngredienteResponseDTO ingre : ingredientsByPlate) {
-            if (ingre.getFullCalories() > ingredienteResponseDTOMayor.getFullCalories()) { // comparo calorias totales de ambos ingredientes
+            if(comparator.compare(ingre.getFullCalories(), ingredienteResponseDTOMayor.getFullCalories()) > 0){ // comparo calorias totales de ambos ingredientes
+//            if (ingre.getFullCalories() > ingredienteResponseDTOMayor.getFullCalories()) {
                 ingredienteResponseDTOMayor = ingre; // entonces el mayor elemento es el que estoy iterando
             }
         }
